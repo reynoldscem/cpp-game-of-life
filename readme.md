@@ -8,5 +8,5 @@ easily could be extended to read files.
 Use:
 
 ```
-gcc gop.cpp && ./a.out
+g++ gol.cpp && ./a.out
 ```
