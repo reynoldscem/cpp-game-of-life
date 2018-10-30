@@ -1,6 +1,8 @@
 #include <iostream>
 #include <sstream>
 #include <unistd.h>
+#include <curses.h>
+
 
 class Grid {
 public:
@@ -33,7 +35,7 @@ public:
 
       for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this-> width; j++) {
-          os << (this->grid_data[i][j] == true ? '#' : '.');
+          os << (this->grid_data[i][j] == true ? '@' : ' ');
         }
         os << std::endl;
       }
@@ -85,64 +87,13 @@ std::ostream& operator<< (std::ostream& stream, Grid& obj) {
 }
 
 int main() {
-  std::cout << "Hello world" << std::endl;
-
-  Grid my_grid = Grid(40, 240);
+  Grid my_grid = Grid(42, 200);
 
 	// www.conwaylife.com/patterns/pulsar_106.lif
 	/*
 		Macro to process above
 		^imy_grid.grid_data[30/ r]a[30$a] = true;j^
 	*/
-	// my_grid.grid_data[5][3] = true;
-	// my_grid.grid_data[6][3] = true;
-	// my_grid.grid_data[7][3] = true;
-	// my_grid.grid_data[11][3] = true;
-	// my_grid.grid_data[12][3] = true;
-	// my_grid.grid_data[13][3] = true;
-	// my_grid.grid_data[3][5] = true;
-	// my_grid.grid_data[8][5] = true;
-	// my_grid.grid_data[10][5] = true;
-	// my_grid.grid_data[15][5] = true;
-	// my_grid.grid_data[3][6] = true;
-	// my_grid.grid_data[8][6] = true;
-	// my_grid.grid_data[10][6] = true;
-	// my_grid.grid_data[15][6] = true;
-	// my_grid.grid_data[3][7] = true;
-	// my_grid.grid_data[8][7] = true;
-	// my_grid.grid_data[10][7] = true;
-	// my_grid.grid_data[15][7] = true;
-	// my_grid.grid_data[5][8] = true;
-	// my_grid.grid_data[6][8] = true;
-	// my_grid.grid_data[7][8] = true;
-	// my_grid.grid_data[11][8] = true;
-	// my_grid.grid_data[12][8] = true;
-	// my_grid.grid_data[13][8] = true;
-	// my_grid.grid_data[5][10] = true;
-	// my_grid.grid_data[6][10] = true;
-	// my_grid.grid_data[7][10] = true;
-	// my_grid.grid_data[11][10] = true;
-	// my_grid.grid_data[12][10] = true;
-	// my_grid.grid_data[13][10] = true;
-	// my_grid.grid_data[3][11] = true;
-	// my_grid.grid_data[8][11] = true;
-	// my_grid.grid_data[10][11] = true;
-	// my_grid.grid_data[15][11] = true;
-	// my_grid.grid_data[3][12] = true;
-	// my_grid.grid_data[8][12] = true;
-	// my_grid.grid_data[10][12] = true;
-	// my_grid.grid_data[15][12] = true;
-	// my_grid.grid_data[3][13] = true;
-	// my_grid.grid_data[8][13] = true;
-	// my_grid.grid_data[10][13] = true;
-	// my_grid.grid_data[15][13] = true;
-	// my_grid.grid_data[5][15] = true;
-	// my_grid.grid_data[6][15] = true;
-	// my_grid.grid_data[7][15] = true;
-	// my_grid.grid_data[11][15] = true;
-	// my_grid.grid_data[12][15] = true;
-	// my_grid.grid_data[13][15] = true;
-
   my_grid.grid_data[12][36] = true;
   my_grid.grid_data[13][34] = true;
   my_grid.grid_data[13][36] = true;
@@ -180,11 +131,14 @@ int main() {
   my_grid.grid_data[20][24] = true;
   my_grid.grid_data[20][25] = true;
 
+  initscr();
+
   for (int i = 0; i < 10000; i++) {
     std::string res = my_grid.str();
+    erase();
     // std::cout << "\033[2J\033[1;1H"
-    std::cout 
-      << res << std::endl;
+    printw(res.c_str());
+    refresh();
     my_grid.tick();
     usleep(1000 * 10);
   }
